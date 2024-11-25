@@ -4,8 +4,9 @@
 
 import uuid
 
-from core.models.datasets import Dataset
 from django.db import models
+
+from core.models.datasets import Dataset
 
 
 class DatasetLabel(models.Model):

@@ -2,41 +2,10 @@
 Модель пользователя системы.
 """
 
-from django.contrib.auth.models import (AbstractUser, BaseUserManager, Group,
-                                        Permission)
+from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
-
-class CustomUserManager(BaseUserManager):
-    """
-    Менеджер для кастомной модели пользователя.
-    """
-
-    def create_user(self, email, password=None, **extra_fields):
-        """
-        Создает и возвращает обычного пользователя с указанным email и паролем.
-        """
-        if not email:
-            raise ValueError("Поле email обязательно для пользователя.")
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password=None, **extra_fields):
-        """
-        Создает и возвращает суперпользователя с указанным email и паролем.
-        """
-        extra_fields.setdefault("is_staff", True)
-        extra_fields.setdefault("is_superuser", True)
-
-        if not extra_fields.get("is_staff"):
-            raise ValueError("Суперпользователь должен иметь is_staff=True.")
-        if not extra_fields.get("is_superuser"):
-            raise ValueError("Суперпользователь должен иметь is_superuser=True.")
-
-        return self.create_user(email, password, **extra_fields)
+from core.cqrs.services.user_service import UserService
 
 
 class User(AbstractUser):
@@ -60,7 +29,7 @@ class User(AbstractUser):
         ),
     )
 
-    objects = CustomUserManager()
+    objects = UserService()
 
     class Meta:
         ordering = ["-id"]
