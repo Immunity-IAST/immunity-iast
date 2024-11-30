@@ -10,7 +10,7 @@ from core.models.applications import Application
 from core.models.contexts import Context
 
 
-class Request(models.Model):
+class Response(models.Model):
     """
     Модель ответа.
     """

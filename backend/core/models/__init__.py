@@ -4,6 +4,7 @@ from .dataset_labels import DatasetLabel
 from .datasets import Dataset
 from .events import Event
 from .requests import Request
+from .responses import Response
 from .users import User
 
 __all__ = [
@@ -11,6 +12,7 @@ __all__ = [
     "Application",
     "Context",
     "Request",
+    "Response",
     "Event",
     "Dataset",
     "DatasetLabel",
