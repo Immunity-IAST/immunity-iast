@@ -32,8 +32,8 @@ class Response(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name_plural = "Сообщения"
-        verbose_name = "Сообщение"
+        verbose_name_plural = "Ответы"
+        verbose_name = "Ответ"
 
     def __str__(self):
         return str(self.id)

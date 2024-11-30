@@ -33,8 +33,8 @@ class Request(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
-        verbose_name_plural = "Сообщения"
-        verbose_name = "Сообщение"
+        verbose_name_plural = "Запросы"
+        verbose_name = "Запрос"
 
     def __str__(self):
         return str(self.id)

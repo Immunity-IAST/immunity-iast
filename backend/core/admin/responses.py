@@ -24,5 +24,5 @@ class ResponseAdmin(admin.ModelAdmin):
         "created_at",
     )
     list_display_links = ("id",)
-    list_filter = ("status_code")
+    list_filter = ("status_code",)
     search_fields = ("application",)

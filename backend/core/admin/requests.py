@@ -22,5 +22,5 @@ class RequestAdmin(admin.ModelAdmin):
         "created_at",
     )
     list_display_links = ("id",)
-    list_filter = ("type", "method")
+    list_filter = ("method",)
     search_fields = ("application",)
