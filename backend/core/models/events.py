@@ -34,8 +34,6 @@ class Event(models.Model):
     line = models.IntegerField(blank=True, null=True)
     args = models.JSONField(blank=True, null=True)
     code = models.TextField(blank=True, null=True)
-    final_state = models.JSONField(blank=True, null=True)
-    returned_value = models.JSONField(blank=True, null=True)
     exception_type = models.CharField(max_length=255, blank=True, null=True)
     exception_message = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
