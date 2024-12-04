@@ -2,9 +2,8 @@
 Отображение в админке унифицированной модели для http-ответа.
 """
 
-from django.contrib import admin
-
 from core.models import Response
+from django.contrib import admin
 
 
 @admin.register(Response)

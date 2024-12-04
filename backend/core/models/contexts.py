@@ -4,9 +4,8 @@
 
 import uuid
 
-from django.db import models
-
 from core.models.applications import Application
+from django.db import models
 
 
 class Context(models.Model):

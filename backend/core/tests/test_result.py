@@ -22,6 +22,7 @@ def test_init_with_dict_success():
     assert result.errors == []
     assert result.meta == {"info": "test"}
 
+
 @pytest.mark.django_db
 def test_init_with_dict_failure():
     """Проверка инициализации с ошибочным словарём."""
@@ -38,6 +39,7 @@ def test_init_with_dict_failure():
     assert result.data == {}
     assert result.meta == {}
 
+
 @pytest.mark.django_db
 def test_init_with_exception():
     """Проверка инициализации с объектом исключения."""
@@ -47,6 +49,7 @@ def test_init_with_exception():
     assert result.success is False
     assert "Test exception" in result.errors
     assert result.meta["exception_type"] == "ValueError"
+
 
 @pytest.mark.django_db
 def test_init_with_queryset_success(mocker):
@@ -60,6 +63,7 @@ def test_init_with_queryset_success(mocker):
     assert result.data == [{"id": 1, "name": "Test"}]
     mock_queryset.all.assert_called_once()
 
+
 @pytest.mark.django_db
 def test_init_with_queryset_failure(mocker):
     """Проверка обработки исключения при работе с QuerySet."""
@@ -71,6 +75,7 @@ def test_init_with_queryset_failure(mocker):
     assert result.success is False
     assert "Database error" in result.errors
 
+
 @pytest.mark.django_db
 def test_init_with_list():
     """Проверка преобразования списка в Result."""
@@ -80,6 +85,7 @@ def test_init_with_list():
     assert result.success is True
     assert result.data == source
 
+
 @pytest.mark.django_db
 def test_unsupported_source():
     """Проверка обработки неподдерживаемого типа источника."""
@@ -88,6 +94,7 @@ def test_unsupported_source():
 
     assert result.success is False
     assert "Unsupported source type" in result.errors
+
 
 @pytest.mark.django_db
 def test_to_dict():
@@ -104,6 +111,7 @@ def test_to_dict():
 
     assert result_dict == expected_dict
 
+
 @pytest.mark.django_db
 def test_success_static_method():
     """Проверка статического метода success."""
@@ -112,6 +120,7 @@ def test_success_static_method():
     assert result.success is True
     assert result.data == {"key": "value"}
     assert result.meta == {"info": "test"}
+
 
 @pytest.mark.django_db
 def test_failure_static_method():

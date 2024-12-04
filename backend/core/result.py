@@ -19,7 +19,6 @@
     {'success': False, 'data': {}, 'errors': ['Something went wrong'], 'meta': {}}
 """
 
-
 from typing import Any, Dict, List, Optional, Union
 
 
@@ -65,7 +64,7 @@ class Result:
             self._from_dict(source)
         elif isinstance(source, Exception):
             self._from_exception(source)
-        elif hasattr(source, 'all'):  # Предполагаем, что это QuerySet
+        elif hasattr(source, "all"):  # Предполагаем, что это QuerySet
             self._from_queryset(source)
         elif isinstance(source, list):
             self._from_list(source)
@@ -136,7 +135,9 @@ class Result:
         }
 
     @classmethod
-    def success(cls, data: Optional[Any] = None, meta: Optional[Dict[str, Any]] = None) -> "Result":
+    def success(
+        cls, data: Optional[Any] = None, meta: Optional[Dict[str, Any]] = None
+    ) -> "Result":
         """
         Статический метод для создания успешного результата.
 
@@ -154,7 +155,9 @@ class Result:
         return instance
 
     @classmethod
-    def failure(cls, errors: Union[str, List[str]], meta: Optional[Dict[str, Any]] = None) -> "Result":
+    def failure(
+        cls, errors: Union[str, List[str]], meta: Optional[Dict[str, Any]] = None
+    ) -> "Result":
         """
         Статический метод для создания результата с ошибками.
 

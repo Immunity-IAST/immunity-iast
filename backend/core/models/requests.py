@@ -4,10 +4,9 @@
 
 import uuid
 
-from django.db import models
-
 from core.models.applications import Application
 from core.models.contexts import Context
+from django.db import models
 
 
 class Request(models.Model):

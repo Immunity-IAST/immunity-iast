@@ -2,8 +2,8 @@
 Команда для обработки контекста выполнения запроса, присылаемого агентом.
 """
 
-import json
 import base64
+import json
 
 
 class CommandHandleContext:
@@ -11,7 +11,9 @@ class CommandHandleContext:
     Команда для обработки контекста выполнения запроса, присылаемого агентом.
     """
 
-    def __init__(self, project_id, request_base_64, control_flow_base_64, response_base_64):
+    def __init__(
+        self, project_id, request_base_64, control_flow_base_64, response_base_64
+    ):
         """
         Конструктор команды.
         :param project_id: id анализируемого приложения.
@@ -29,7 +31,9 @@ class CommandHandleContext:
 
         try:
             json_request = base64.b64decode(self.request_base_64).decode("utf-8")
-            json_control_flow = base64.b64decode(self.control_flow_base_64).decode("utf-8")
+            json_control_flow = base64.b64decode(self.control_flow_base_64).decode(
+                "utf-8"
+            )
             json_response = base64.b64decode(self.response_base_64).decode("utf-8")
 
         except (KeyError, ValueError, json.JSONDecodeError) as e:

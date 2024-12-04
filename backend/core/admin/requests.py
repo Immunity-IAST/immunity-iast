@@ -2,9 +2,8 @@
 Отображение в админке унифицированной модели для http-запроса.
 """
 
-from django.contrib import admin
-
 from core.models import Request
+from django.contrib import admin
 
 
 @admin.register(Request)
