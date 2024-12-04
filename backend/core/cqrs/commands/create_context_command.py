@@ -6,7 +6,7 @@ import base64
 import json
 
 
-class CommandHandleContext:
+class CreateContextCommand:
     """
     Команда для обработки контекста выполнения запроса, присылаемого агентом.
     """
@@ -29,12 +29,9 @@ class CommandHandleContext:
         Выполнение команды.
         """
 
-        try:
-            json_request = base64.b64decode(self.request_base_64).decode("utf-8")
-            json_control_flow = base64.b64decode(self.control_flow_base_64).decode(
-                "utf-8"
-            )
-            json_response = base64.b64decode(self.response_base_64).decode("utf-8")
+        json_request = base64.b64decode(self.request_base_64).decode("utf-8")
+        json_control_flow = base64.b64decode(self.control_flow_base_64).decode("utf-8")
+        json_response = base64.b64decode(self.response_base_64).decode("utf-8")
 
-        except (KeyError, ValueError, json.JSONDecodeError) as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        print(json_request)
+        print("----------------------------------------")
