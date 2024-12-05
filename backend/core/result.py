@@ -19,6 +19,8 @@
     {'success': False, 'data': {}, 'errors': ['Something went wrong'], 'meta': {}}
 """
 
+import traceback
+from django.conf import settings
 from typing import Any, Dict, List, Optional, Union
 
 
@@ -94,7 +96,11 @@ class Result:
         """
         self.success = False
         self.errors.append(str(source))
-        self.meta = {"exception_type": source.__class__.__name__}
+        self.meta = {"exception_type": source.__class__.__name__,}
+
+        if settings.DEBUG:
+            tb = traceback.format_exc().splitlines()
+        self.meta['traceback'] = tb
 
     def _from_queryset(self, source: Any) -> None:
         """
