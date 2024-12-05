@@ -7,14 +7,20 @@
 """
 
 import base64
+
 from core.cqrs.commands.create_context_command import CreateContextCommand
-from drf_spectacular.utils import OpenApiParameter, extend_schema, OpenApiResponse, OpenApiExample, inline_serializer
-from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
-from rest_framework import serializers
-from rest_framework.response import Response
 from core.result import Result
+from drf_spectacular.utils import (
+    OpenApiExample,
+    OpenApiParameter,
+    OpenApiResponse,
+    extend_schema,
+    inline_serializer,
+)
+from rest_framework import serializers, viewsets
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
 
 
 class ContextSerializer(serializers.Serializer):
@@ -27,21 +33,23 @@ class ContextSerializer(serializers.Serializer):
         response (TextField): Ответ.
     """
 
-    def validate_request(self, value): # TODO: DRY REFACTOR
+    def validate_request(self, value):  # TODO: DRY REFACTOR
         try:
             base64.b64decode(value).decode("utf-8")
         except:
             raise ValidationError("Параметр request должен быть закодирован в Base64.")
         return value
 
-    def validate_control_flow(self, value): # TODO: DRY REFACTOR
+    def validate_control_flow(self, value):  # TODO: DRY REFACTOR
         try:
             base64.b64decode(value).decode("utf-8")
         except:
-            raise ValidationError("Параметр control_flow должен быть закодирован в Base64.")
+            raise ValidationError(
+                "Параметр control_flow должен быть закодирован в Base64."
+            )
         return value
 
-    def validate_response(self, value): # TODO: DRY REFACTOR
+    def validate_response(self, value):  # TODO: DRY REFACTOR
         try:
             base64.b64decode(value).decode("utf-8")
         except:
@@ -85,7 +93,11 @@ class ContextAPIViewset(viewsets.ViewSet):
                 examples=[
                     OpenApiExample(
                         "Некорректный запрос",
-                        value=Result.failure(errors={"Параметр": "Сообщение об ошибке.",}).to_dict(),
+                        value=Result.failure(
+                            errors={
+                                "Параметр": "Сообщение об ошибке.",
+                            }
+                        ).to_dict(),
                         request_only=False,
                         response_only=True,
                     ),
@@ -93,22 +105,30 @@ class ContextAPIViewset(viewsets.ViewSet):
             ),
             500: OpenApiResponse(
                 description="Сообщение о внутренней ошибке.",
-                response=Result.failure(errors="Сообщение о внутренней ошибке.").to_dict(),
+                response=Result.failure(
+                    errors="Сообщение о внутренней ошибке."
+                ).to_dict(),
                 examples=[
                     OpenApiExample(
                         "Внутренняя ошибка сервера",
-                        value=Result.failure(errors="Сообщение об ошибке.", meta={
-                            "exception_type": "Класс исключения",
-                        }).to_dict(),
+                        value=Result.failure(
+                            errors="Сообщение об ошибке.",
+                            meta={
+                                "exception_type": "Класс исключения",
+                            },
+                        ).to_dict(),
                         request_only=False,
                         response_only=True,
                     ),
                     OpenApiExample(
                         "Внутренняя ошибка сервера (режим отладки)",
-                        value=Result.failure(errors="Сообщение об ошибке.", meta={
-                            "exception_type": "Класс исключения",
-                            "traceback": ["Трассировка ошибки"]
-                        }).to_dict(),
+                        value=Result.failure(
+                            errors="Сообщение об ошибке.",
+                            meta={
+                                "exception_type": "Класс исключения",
+                                "traceback": ["Трассировка ошибки"],
+                            },
+                        ).to_dict(),
                         request_only=False,
                         response_only=True,
                     ),
@@ -117,7 +137,7 @@ class ContextAPIViewset(viewsets.ViewSet):
         },
         summary="Добавить контекст выполнения запроса.",
         description="Принимает три строки в base64, расшифровывает их и передает в асинхронную Celery задачу.",
-        tags=['agent'],
+        tags=["agent"],
     )
     def post(self, request, *args, **kwargs) -> Response:
         """
