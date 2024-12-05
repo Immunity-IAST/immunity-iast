@@ -7,8 +7,10 @@
 """
 
 import base64
+import json
 
-from core.cqrs.commands.create_context_command import CreateContextCommand
+from core.cqrs.commands.agent.create_context_command import CreateContextCommand
+from core.models import Application
 from core.result import Result
 from drf_spectacular.utils import (
     OpenApiExample,
@@ -21,7 +23,6 @@ from rest_framework import serializers, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from core.models import Application
 
 
 class ContextSerializer(serializers.Serializer):
@@ -40,9 +41,7 @@ class ContextSerializer(serializers.Serializer):
         try:
             Application.objects.get(name=value)
         except Application.DoesNotExist:
-            raise ValidationError(
-                "Приложение с названием {} не найдено.".format(value)
-            )
+            raise ValidationError("Приложение с названием {} не найдено.".format(value))
         return value
 
     def validate_request(self, value):  # TODO: DRY REFACTOR
@@ -169,9 +168,9 @@ class ContextAPIViewset(viewsets.ViewSet):
 
                 command = CreateContextCommand(
                     data["project"],
-                    data["request"],
-                    data["control_flow"],
-                    data["response"],
+                    json.loads(base64.b64decode(data["request"]).decode("utf-8")),
+                    json.loads(base64.b64decode(data["control_flow"]).decode("utf-8")),
+                    json.loads(base64.b64decode(data["response"]).decode("utf-8")),
                 )
                 result = command.execute()
 
