@@ -21,17 +21,29 @@ from rest_framework import serializers, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from core.models import Application
 
 
 class ContextSerializer(serializers.Serializer):
     """Сериализатор для приема контекста выполнения запроса.
 
     Атрибуты:
-        project (CharField): ID проекта.
+        project (CharField): Название приложения.
         request (TextField): Запрос.
         control_flow (TextField): Поток управления.
         response (TextField): Ответ.
     """
+
+    def validate_project(self, value):  # TODO: DRY REFACTOR
+        if not value:
+            raise ValidationError("Параметр project не может быть пустым.")
+        try:
+            Application.objects.get(name=value)
+        except Application.DoesNotExist:
+            raise ValidationError(
+                "Приложение с названием {} не найдено.".format(value)
+            )
+        return value
 
     def validate_request(self, value):  # TODO: DRY REFACTOR
         try:
