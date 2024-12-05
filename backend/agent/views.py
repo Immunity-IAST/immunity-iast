@@ -6,6 +6,7 @@
 - Отправка контекста выполнения запроса.
 """
 
+import base64
 from core.cqrs.commands.create_context_command import CreateContextCommand
 from drf_spectacular.utils import OpenApiParameter, extend_schema, OpenApiResponse, OpenApiExample, inline_serializer
 from rest_framework import viewsets
@@ -13,6 +14,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework import serializers
 from rest_framework.response import Response
 from core.result import Result
+from rest_framework.exceptions import ValidationError
 
 
 class ContextSerializer(serializers.Serializer):
@@ -24,6 +26,28 @@ class ContextSerializer(serializers.Serializer):
         control_flow (TextField): Поток управления.
         response (TextField): Ответ.
     """
+
+    def validate_request(self, value): # TODO: DRY REFACTOR
+        try:
+            base64.b64decode(value).decode("utf-8")
+        except:
+            raise ValidationError("Параметр request должен быть закодирован в Base64.")
+        return value
+
+    def validate_control_flow(self, value): # TODO: DRY REFACTOR
+        try:
+            base64.b64decode(value).decode("utf-8")
+        except:
+            raise ValidationError("Параметр control_flow должен быть закодирован в Base64.")
+        return value
+
+    def validate_response(self, value): # TODO: DRY REFACTOR
+        try:
+            base64.b64decode(value).decode("utf-8")
+        except:
+            raise ValidationError("Параметр response должен быть закодирован в Base64.")
+        return value
+
     project = serializers.CharField(max_length=255)
     request = serializers.CharField(max_length=None)
     control_flow = serializers.CharField(max_length=None)
@@ -61,7 +85,7 @@ class ContextAPIViewset(viewsets.ViewSet):
                 examples=[
                     OpenApiExample(
                         "Некорректный запрос",
-                        value=Result.failure(errors="Сообщение об ошибке.").to_dict(),
+                        value=Result.failure(errors={"Параметр": "Сообщение об ошибке.",}).to_dict(),
                         request_only=False,
                         response_only=True,
                     ),
@@ -91,6 +115,7 @@ class ContextAPIViewset(viewsets.ViewSet):
                 ],
             ),
         },
+        summary="Добавить контекст выполнения запроса.",
         description="Принимает три строки в base64, расшифровывает их и передает в асинхронную Celery задачу.",
         tags=['agent'],
     )
