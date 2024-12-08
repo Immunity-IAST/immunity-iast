@@ -1,7 +1,10 @@
 import axios from 'axios'
 
+const api_host = import.meta.env.VITE_API_HOST
+const api_port = import.meta.env.VITE_API_PORT
+
 const instance = axios.create({
-    baseURL: 'http://localhost:8000/api/users/',
+    baseURL: `http://${api_host}:${api_port}/api/users/`,
     timeout: 5000
 })
 
@@ -11,7 +14,6 @@ instance.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             const authStore = useAuthStore()
             authStore.logout()
-            // Возможно, перенаправить на /login
         }
         return Promise.reject(error)
     }

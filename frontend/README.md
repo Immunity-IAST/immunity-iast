@@ -27,3 +27,11 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### ENV
+
+```
+VITE_API_HOST=127.0.0.1
+VITE_API_PORT=8000
+
+```

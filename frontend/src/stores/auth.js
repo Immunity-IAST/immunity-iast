@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
 import axios from '../axios'
 
+export const api_host = import.meta.env.VITE_API_HOST
+export const api_port = import.meta.env.VITE_API_PORT
+
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         accessToken: localStorage.getItem('accessToken') || null,
@@ -26,7 +29,7 @@ export const useAuthStore = defineStore('auth', {
             this.error = null
             this.loading = true
             try {
-                const response = await axios.post('http://localhost:8000/api/users/auth/jwt/create', credentials)
+                const response = await axios.post(`http://${api_host}:${api_port}/api/users/auth/jwt/create`, credentials)
                 const { access, refresh } = response.data
                 this.setToken(access)
                 localStorage.setItem('refreshToken', refresh)
@@ -35,6 +38,14 @@ export const useAuthStore = defineStore('auth', {
                 await this.fetchUser()
             } catch (error) {
                 this.error = error.response?.data || 'Login failed'
+
+                const errorMessage = error.response
+                ? JSON.stringify(error.response.data) // Ответ сервера
+                : error.request
+                ? 'No response received. Possible network error.' // Нет ответа от сервера
+                : error.message || 'Unknown error occurred.'; // Любая другая ошибка
+
+                console.error(`Login error: ${errorMessage}`); // Логируем в консоль
             } finally {
                 this.loading = false
             }
@@ -43,9 +54,7 @@ export const useAuthStore = defineStore('auth', {
             this.error = null
             this.loading = true
             try {
-                await axios.post('http://localhost:8000/api/users/auth/users/', formData)
-                // После успешной регистрации можно перенаправить на login или
-                // автоматически залогинить, если API это позволяет.
+                await axios.post(`http://${api_host}:${api_port}/api/users/auth/users/`, formData)
             } catch (error) {
                 this.error = error.response?.data || 'Registration failed'
             } finally {
@@ -56,9 +65,7 @@ export const useAuthStore = defineStore('auth', {
             this.error = null
             this.loading = true
             try {
-                await axios.post('http://localhost:8000/api/users/auth/users/reset_password/', { email })
-                // На почту будет выслана ссылка для сброса пароля.
-                // Отдельная логика для подтверждения сброса (reset_password_confirm) вам понадобится на отдельной странице.
+                await axios.post(`http://${api_host}:${api_port}/api/users/auth/users/reset_password/`, { email })
             } catch (error) {
                 this.error = error.response?.data || 'Reset password failed'
             } finally {
@@ -69,13 +76,12 @@ export const useAuthStore = defineStore('auth', {
             this.error = null
             this.loading = true
             try {
-                await axios.post('http://localhost:8000/api/users/auth/users/reset_password_confirm/', {
+                await axios.post(`http://${api_host}:${api_port}/api/users/auth/users/reset_password_confirm/`, {
                     uid,
                     token,
                     new_password,
                     re_new_password
                 })
-                // После успешного сброса можно перенаправить на /login
             } catch (error) {
                 this.error = error.response?.data || 'Reset password confirm failed'
             } finally {
@@ -86,7 +92,7 @@ export const useAuthStore = defineStore('auth', {
             this.error = null
             this.loading = true
             try {
-                const response = await axios.get('http://localhost:8000/api/users/auth/users/me/', {
+                const response = await axios.get(`http://${api_host}:${api_port}/api/users/auth/users/me/`, {
                     headers: {
                         Authorization: `Bearer ${this.accessToken}`
                     }
