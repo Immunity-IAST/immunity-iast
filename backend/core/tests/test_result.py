@@ -9,6 +9,7 @@ from core.result import Result
 @pytest.mark.django_db
 def test_init_with_dict_success():
     """Проверка успешной инициализации с источником-словарём."""
+
     source = {
         "success": True,
         "data": {"key": "value"},
@@ -26,6 +27,7 @@ def test_init_with_dict_success():
 @pytest.mark.django_db
 def test_init_with_dict_failure():
     """Проверка инициализации с ошибочным словарём."""
+
     source = {
         "success": False,
         "data": {},
@@ -43,6 +45,7 @@ def test_init_with_dict_failure():
 @pytest.mark.django_db
 def test_init_with_exception():
     """Проверка инициализации с объектом исключения."""
+
     exception = ValueError("Test exception")
     result = Result(exception)
 
@@ -54,6 +57,7 @@ def test_init_with_exception():
 @pytest.mark.django_db
 def test_init_with_queryset_success(mocker):
     """Проверка преобразования QuerySet в Result."""
+
     mock_queryset = mocker.MagicMock()
     mock_queryset.all.return_value.values.return_value = [{"id": 1, "name": "Test"}]
 
@@ -67,6 +71,7 @@ def test_init_with_queryset_success(mocker):
 @pytest.mark.django_db
 def test_init_with_queryset_failure(mocker):
     """Проверка обработки исключения при работе с QuerySet."""
+
     mock_queryset = mocker.MagicMock()
     mock_queryset.all.side_effect = Exception("Database error")
 
@@ -79,6 +84,7 @@ def test_init_with_queryset_failure(mocker):
 @pytest.mark.django_db
 def test_init_with_list():
     """Проверка преобразования списка в Result."""
+
     source = [{"id": 1, "name": "Item1"}, {"id": 2, "name": "Item2"}]
     result = Result(source)
 
@@ -89,6 +95,7 @@ def test_init_with_list():
 @pytest.mark.django_db
 def test_unsupported_source():
     """Проверка обработки неподдерживаемого типа источника."""
+
     source = 12345  # Неподдерживаемый тип
     result = Result(source)
 
@@ -99,6 +106,7 @@ def test_unsupported_source():
 @pytest.mark.django_db
 def test_to_dict():
     """Проверка преобразования Result в словарь."""
+
     result = Result.success(data={"key": "value"}, meta={"info": "test"})
 
     result_dict = result.to_dict()
@@ -115,6 +123,7 @@ def test_to_dict():
 @pytest.mark.django_db
 def test_success_static_method():
     """Проверка статического метода success."""
+
     result = Result.success(data={"key": "value"}, meta={"info": "test"})
 
     assert result.success is True
@@ -125,6 +134,7 @@ def test_success_static_method():
 @pytest.mark.django_db
 def test_failure_static_method():
     """Проверка статического метода failure."""
+
     result = Result.failure(errors=["Something went wrong"], meta={"info": "test"})
 
     assert result.success is False

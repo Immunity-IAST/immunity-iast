@@ -101,8 +101,7 @@ class Result:
             "exception_type": source.__class__.__name__,
         }
 
-        if settings.DEBUG:
-            tb = traceback.format_exc().splitlines()
+        tb = traceback.format_exc().splitlines() if settings.DEBUG else []
         self.meta["traceback"] = tb
 
     def _from_queryset(self, source: Any) -> None:
