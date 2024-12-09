@@ -1,4 +1,4 @@
-name: check
+name: Dockle Linting
 
 on:
   push:
@@ -9,20 +9,21 @@ on:
       - 'master'
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-20.04
+  dockle-lint:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Build an image from Dockerfile
-        run: |
-          docker build -t built-image:scan -f docker/Dockerfile .
-      - name: Run dockle
-        uses: goodwithtech/dockle-action@main
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        id: setup-buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker Image
+        id: build-image
+        uses: docker/build-push-action@v3
         with:
-          image: 'built-image:scan'
-          format: 'list'
-          exit-code: '1'
-          exit-level: 'warn'
-          ignore: 'CIS-DI-0001,DKL-DI-0006'
+          context: ./
+          push: false
+          tags: ${{ github.repository }}:${{ github.sha }}
