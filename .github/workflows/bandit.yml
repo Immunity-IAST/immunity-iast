@@ -1,9 +1,6 @@
 name: Bandit SAST
 
 on:
-  push:
-    branches:
-      - 'feature/*'
   pull_request:
     branches:
       - 'master'

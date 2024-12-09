@@ -1,9 +1,6 @@
 name: Validate nginx config
 
 on:
-  push:
-    branches:
-      - 'feature/*'
   pull_request:
     branches:
       - 'master'
