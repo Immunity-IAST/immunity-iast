@@ -27,12 +27,12 @@ jobs:
           context: ./
           file: ./docker/Dockerfile
           push: false
-          tags: ${{ github.repository }}:${{ github.sha }}
+          tags: immunity_iast:${{ github.sha }}
 
       - name: Run Dockle on Dockerfile
         uses: goodwithtech/dockle-action@main
         with:
-          image: ${{ github.repository }}:${{ github.sha }}
+          image: immunity_iast:${{ github.sha }}
           format: json
           exit-code: 1
           exit-level: error
