@@ -18,4 +18,4 @@ jobs:
         with:
           dockerfile: "docker/Dockerfile"
           ignored:
-            - DL3008
+            - DL3008 # пакетному менеджеру виднее)
