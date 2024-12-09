@@ -1,4 +1,6 @@
 [MASTER]
 ignore=manage.py
+load-plugins=pylint_django
+django-settings-module=conf.settings.prod
 disable=
     C0115,W0611,E0401,R0903,E1101,C0411,W0718
