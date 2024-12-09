@@ -9,14 +9,12 @@ on:
       - 'master'
 
 jobs:
-  build:
-
+  unittest:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.12]
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
