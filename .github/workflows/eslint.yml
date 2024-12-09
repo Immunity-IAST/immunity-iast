@@ -9,20 +9,19 @@ on:
       - 'master'
 
 jobs:
-  build:
-
+  lint:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-
     steps:
     - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
     - name: Run linter
-    - run: cd frontend && npm install && npm run lint
+      run: |
+        cd frontend
+        npm install
+        npm run lint
