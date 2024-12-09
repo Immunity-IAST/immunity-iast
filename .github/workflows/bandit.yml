@@ -23,4 +23,4 @@ jobs:
           pip install bandit
       - name: Analysing the code with pylint
         run: |
-          cd service && bandit -r ./backend
+          cd backend && bandit -r .
