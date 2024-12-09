@@ -41,7 +41,7 @@ class ContextSerializer(serializers.Serializer):
         try:
             Application.objects.get(name=value)
         except Application.DoesNotExist:
-            raise ValidationError("Приложение с названием {} не найдено.".format(value))
+            raise ValidationError(f"Приложение с названием {value} не найдено.")
         return value
 
     def validate_request(self, value):  # TODO: DRY REFACTOR
@@ -147,7 +147,8 @@ class ContextAPIViewset(viewsets.ViewSet):
             ),
         },
         summary="Добавить контекст выполнения запроса.",
-        description="Принимает три строки в base64, расшифровывает их и передает в асинхронную Celery задачу.",
+        description="Принимает три строки в base64" +
+            ", расшифровывает их и передает в асинхронную Celery задачу.",
         tags=["agent"],
     )
     def post(self, request, *args, **kwargs) -> Response:
