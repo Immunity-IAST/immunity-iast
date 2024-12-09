@@ -1,28 +1,28 @@
 <script>
-import { useAuthStore } from '../stores/auth'
-import { computed, onMounted  } from 'vue'
-import { useRouter } from 'vue-router'
+import {useAuthStore} from '../stores/auth';
+import {computed, onMounted} from 'vue';
+import {useRouter} from 'vue-router';
 
 export default {
   setup() {
-    const auth = useAuthStore()
-    const router = useRouter()
-    const user = computed(() => auth.user)
+    const auth = useAuthStore();
+    const router = useRouter();
+    const user = computed(() => auth.user);
 
     onMounted(() => {
       if (!auth.user) {
-        auth.fetchUser()
+        auth.fetchUser();
       }
-    })
+    });
 
     const handleLogout = () => {
-      auth.logout()
-      router.push('/login')
-    }
+      auth.logout();
+      router.push('/login');
+    };
 
-    return { user, handleLogout }
-  }
-}
+    return {user, handleLogout};
+  },
+};
 </script>
 
 <template>
@@ -31,7 +31,9 @@ export default {
     <div v-if="user">
       <p>Username: {{ user.username }}</p>
     </div>
-    <button class="uk-button uk-button-default" @click="handleLogout">Выйти</button>
+    <button class="uk-button uk-button-default" @click="handleLogout">
+        Выйти
+    </button>
   </div>
 </template>
 
