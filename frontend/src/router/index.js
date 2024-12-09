@@ -4,14 +4,10 @@ import HomeView from '../views/HomeView.vue';
 import LoginView from '../views/LoginView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import ProfileView from '../views/ProfileView.vue';
+import ApplicationView from '../views/ApplicationView.vue';
+import AgentView from '../views/AgentView.vue';
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: HomeView,
-    meta: {requiresAuth: true},
-  },
   {
     path: '/login',
     name: 'login',
@@ -21,6 +17,24 @@ const routes = [
     path: '/register',
     name: 'register',
     component: RegisterView,
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView,
+    meta: {requiresAuth: true},
+  },
+  {
+    path: '/application',
+    name: 'application',
+    component: ApplicationView,
+    meta: {requiresAuth: true},
+  },
+  {
+    path: '/agent',
+    name: 'agent',
+    component: AgentView,
+    meta: {requiresAuth: true},
   },
   {
     path: '/profile',

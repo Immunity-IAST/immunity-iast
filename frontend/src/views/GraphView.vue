@@ -1,31 +1,3 @@
-<template>
-  <div style="height: 100vh">
-      <VueFlow
-        v-model:nodes="nodes"
-        v-model:edges="edges"
-        fit-view-on-init
-        class="vue-flow-basic-example"
-        :default-zoom="1.5"
-        :min-zoom="0.2"
-        :max-zoom="4"
-      >
-        <Background pattern-color="#aaa" :gap="8" />
-
-        <MiniMap />
-
-        <Controls />
-
-        <template #node-custom="nodeProps">
-          <CustomNode v-bind="nodeProps" />
-        </template>
-
-        <template #edge-custom="edgeProps">
-          <CustomEdge v-bind="edgeProps" />
-        </template>
-      </VueFlow>
-    </div>
-</template>
-
 <script>
 import {ref, onMounted} from 'vue';
 import {useAuthStore} from '../stores/auth';
@@ -65,6 +37,34 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div style="height: 100vh">
+      <VueFlow
+        v-model:nodes="nodes"
+        v-model:edges="edges"
+        fit-view-on-init
+        class="vue-flow-basic-example"
+        :default-zoom="1.5"
+        :min-zoom="0.2"
+        :max-zoom="4"
+      >
+        <Background pattern-color="#aaa" :gap="8" />
+
+        <MiniMap />
+
+        <Controls />
+
+        <template #node-custom="nodeProps">
+          <CustomNode v-bind="nodeProps" />
+        </template>
+
+        <template #edge-custom="edgeProps">
+          <CustomEdge v-bind="edgeProps" />
+        </template>
+      </VueFlow>
+    </div>
+</template>
 
 <style>
 /* these are necessary styles for vue flow */
