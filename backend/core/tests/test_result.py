@@ -11,14 +11,14 @@ def test_init_with_dict_success():
     """Проверка успешной инициализации с источником-словарём."""
 
     source = {
-        "success": True,
+        "is_success": True,
         "data": {"key": "value"},
         "errors": [],
         "meta": {"info": "test"},
     }
     result = Result(source)
 
-    assert result.success is True
+    assert result.is_success is True
     assert result.data == {"key": "value"}
     assert result.errors == []
     assert result.meta == {"info": "test"}
@@ -29,14 +29,14 @@ def test_init_with_dict_failure():
     """Проверка инициализации с ошибочным словарём."""
 
     source = {
-        "success": False,
+        "is_success": False,
         "data": {},
         "errors": ["Something went wrong"],
         "meta": {},
     }
     result = Result(source)
 
-    assert result.success is False
+    assert result.is_success is False
     assert result.errors == ["Something went wrong"]
     assert result.data == {}
     assert result.meta == {}
@@ -49,7 +49,7 @@ def test_init_with_exception():
     exception = ValueError("Test exception")
     result = Result(exception)
 
-    assert result.success is False
+    assert result.is_success is False
     assert "Test exception" in result.errors
     assert result.meta["exception_type"] == "ValueError"
 
@@ -63,7 +63,7 @@ def test_init_with_queryset_success(mocker):
 
     result = Result(mock_queryset)
 
-    assert result.success is True
+    assert result.is_success is True
     assert result.data == [{"id": 1, "name": "Test"}]
     mock_queryset.all.assert_called_once()
 
@@ -77,7 +77,7 @@ def test_init_with_queryset_failure(mocker):
 
     result = Result(mock_queryset)
 
-    assert result.success is False
+    assert result.is_success is False
     assert "Database error" in result.errors
 
 
@@ -88,7 +88,7 @@ def test_init_with_list():
     source = [{"id": 1, "name": "Item1"}, {"id": 2, "name": "Item2"}]
     result = Result(source)
 
-    assert result.success is True
+    assert result.is_success is True
     assert result.data == source
 
 
@@ -99,7 +99,7 @@ def test_unsupported_source():
     source = 12345  # Неподдерживаемый тип
     result = Result(source)
 
-    assert result.success is False
+    assert result.is_success is False
     assert "Unsupported source type" in result.errors
 
 
@@ -111,7 +111,7 @@ def test_to_dict():
 
     result_dict = result.to_dict()
     expected_dict = {
-        "success": True,
+        "is_success": True,
         "data": {"key": "value"},
         "errors": [],
         "meta": {"info": "test"},
@@ -126,7 +126,7 @@ def test_success_static_method():
 
     result = Result.success(data={"key": "value"}, meta={"info": "test"})
 
-    assert result.success is True
+    assert result.is_success is True
     assert result.data == {"key": "value"}
     assert result.meta == {"info": "test"}
 
@@ -137,6 +137,6 @@ def test_failure_static_method():
 
     result = Result.failure(errors=["Something went wrong"], meta={"info": "test"})
 
-    assert result.success is False
+    assert result.is_success is False
     assert result.errors == ["Something went wrong"]
     assert result.meta == {"info": "test"}
