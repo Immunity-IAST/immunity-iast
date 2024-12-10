@@ -66,8 +66,8 @@ services:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
     environment:
-      - VITE_API_HOST
-      - VITE_API_PORT
+      - API_HOST
+      - API_PORT
       - POSTGRES_PORT
       - POSTGRES_HOST
       - POSTGRES_USER
@@ -91,8 +91,8 @@ services:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
     environment:
-      - VITE_API_HOST
-      - VITE_API_PORT
+      - API_HOST
+      - API_PORT
       - POSTGRES_PORT
       - POSTGRES_HOST
       - POSTGRES_USER

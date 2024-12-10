@@ -70,8 +70,8 @@ services:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
     environment:
-      - VITE_API_HOST=127.0.0.1
-      - VITE_API_PORT=80
+      - API_HOST=127.0.0.1
+      - API_PORT=80
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres
@@ -99,8 +99,8 @@ services:
       - static_volume:/home/app/web/static
       - media_volume:/home/app/web/media
     environment:
-      - VITE_API_HOST=127.0.0.1
-      - VITE_API_PORT=80
+      - API_HOST=127.0.0.1
+      - API_PORT=80
       - POSTGRES_PORT=5432
       - POSTGRES_HOST=db
       - POSTGRES_USER=postgres

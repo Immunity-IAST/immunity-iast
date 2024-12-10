@@ -95,7 +95,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Prepare docker-compose.yml
         run: |
-          sed -i "s|IMAGE_VERSION|${{ steps.extract_tag_version.outputs.tag_version }}|g" docker-compose.yml
+          sed -i "s|latest|${{ steps.extract_tag_version.outputs.tag_version }}|g" docker-compose/docker-compose-template.yml
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -105,7 +105,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           draft: false
-          prerelease: false
+          prerelease: true
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
@@ -113,6 +113,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./my-artifact.zip
-          asset_name: my-artifact.zip
-          asset_content_type: application/zip
+          asset_path: docker-compose/docker-compose-template.yml
+          asset_name: docker-compose.yml
