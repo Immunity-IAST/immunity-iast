@@ -12,8 +12,6 @@ python3 manage.py makemigrations --noinput --settings=conf.settings.prod
 
 python3 manage.py migrate --noinput --settings=conf.settings.prod
 
-python3 manage.py collectstatic --noinput --settings=conf.settings.prod
-
 python3 manage.py init_users --settings=conf.settings.prod
 
 gunicorn --bind 0.0.0.0:8000 conf.wsgi:application

@@ -13,9 +13,9 @@ SECRET_KEY = get_random_secret_key()
 
 DEBUG = False
 
-HOST = environ.get("URL")
+HOST = environ.get("VITE_API_HOST")
 
-PORT = environ.get("PORT")
+PORT = environ.get("VITE_API_PORT")
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
