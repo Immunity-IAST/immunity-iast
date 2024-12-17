@@ -24,12 +24,12 @@ def _handle_request(application, context, json_request):
         path=json_request["path"],
         body=json_request["body"],
         headers=json_request["headers"],
-        user=json_request["user"],
-        get_params=json_request["GET"],
-        post_params=json_request["POST"],
-        cookies=json_request["COOKIES"],
-        files=json_request["FILES"],
-        meta=json_request["META"],
+        user=json_request["user"] if "user" in json_request else "Anonymous",
+        get_params=json_request["GET"] if "GET" in json_request else "",
+        post_params=json_request["POST"] if "POST" in json_request else "",
+        cookies=json_request["COOKIES"] if "COOKIES" in json_request else "",
+        files=json_request["FILES"] if "FILES" in json_request else "",
+        meta=json_request["META"] if "META" in json_request else "",
     )
 
 
@@ -80,7 +80,7 @@ def _handle_control_flow(application, context, json_control_flow):
                 filename=node["filename"],
                 line=node["line"],
                 # final_state=node["final_state"],
-                returned_value=node["returned_value"],
+                #returned_value=node["returned_value"] if "returned_value" in node else "None",
             )
         elif node["event"] == "error":
             Event.objects.create(
@@ -88,10 +88,10 @@ def _handle_control_flow(application, context, json_control_flow):
                 context=context,
                 timestamp=datetime.strptime(node["timestamp"], "%Y-%m-%d %H:%M:%S"),
                 type="error",
-                source_function=node["source"][0]["function"],
-                source_module=node["source"][0]["module"],
-                source_filename=node["source"][0]["filename"],
-                source_line=node["source"][0]["line"],
+                func_name=node["source"][0]["function"],
+                module=node["source"][0]["module"],
+                filename=node["source"][0]["filename"],
+                line=node["source"][0]["line"],
                 exception_type=node["details"]["exception_type"],
                 exception_message=node["details"]["message"],
             )
@@ -111,15 +111,15 @@ def _handle_response(application, context, json_response):
         status_code=json_response["status"],
         headers=json_response["headers"],
         body=json_response["body"],
-        content_type=json_response["content_type"],
+        content_type=json_response["content_type"] if "content_type" in json_response else "",
         content_length=(
-            json_response["content_length"] if json_response["content_length"] else ""
+            json_response["content_length"] if "content_length" in json_response else ""
         ),
-        charset=json_response["charset"] if json_response["charset"] else "",
-        version=json_response["version"] if json_response["version"] else "",
-        reason_phrase=json_response["reason_phrase"],
-        cookies=json_response["cookies"],
-        streaming=json_response["streaming"],
+        charset=json_response["charset"] if "charset" in json_response else "",
+        version=json_response["version"] if "version" in json_response else "",
+        reason_phrase=json_response["reason_phrase"] if "reason_phrase" in json_response else "",
+        cookies=json_response["cookies"] if "cookies" in json_response else "",
+        streaming=json_response["streaming"] if "streaming" in json_response else "",
     )
 
 
