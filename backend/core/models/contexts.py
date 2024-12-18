@@ -4,8 +4,9 @@
 
 import uuid
 
-from core.models.applications import Application
 from django.db import models
+
+from core.models.projects import Project
 
 
 class Context(models.Model):
@@ -14,7 +15,7 @@ class Context(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     method = models.CharField(max_length=255, blank=True, null=True)
     path = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

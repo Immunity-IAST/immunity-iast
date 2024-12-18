@@ -8,10 +8,8 @@
 
 import base64
 import json
+import logging
 
-from core.cqrs.commands.agent.create_context_command import CreateContextCommand
-from core.models import Application
-from core.result import Result
 from drf_spectacular.utils import (
     OpenApiExample,
     OpenApiParameter,
@@ -23,6 +21,12 @@ from rest_framework import serializers, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+
+from core.cqrs.commands.agent.create_context_command import CreateContextCommand
+from core.models import Project
+from core.result import Result
+
+logger = logging.getLogger(__name__)
 
 
 class ContextSerializer(serializers.Serializer):  # pylint: disable=abstract-method
@@ -43,8 +47,8 @@ class ContextSerializer(serializers.Serializer):  # pylint: disable=abstract-met
         if not value:
             raise ValidationError("Параметр project не может быть пустым.")
         try:
-            Application.objects.get(name=value)
-        except Application.DoesNotExist as exc:
+            Project.objects.get(name=value)
+        except Project.DoesNotExist as exc:
             raise ValidationError(
                 f"Приложение с названием {value} не найдено."
             ) from exc

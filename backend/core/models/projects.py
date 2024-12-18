@@ -4,13 +4,14 @@
 
 import uuid
 
-from core.models.users import User
 from django.db import models
 
+from core.models.users import User
 
-class Application(models.Model):
+
+class Project(models.Model):
     """
-    Модель анализируемого приложения.
+    Модель анализируемого проекта.
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -28,4 +29,4 @@ class Application(models.Model):
         verbose_name = "Приложение"
 
     def __str__(self):
-        return self.name
+        return str(self.name)

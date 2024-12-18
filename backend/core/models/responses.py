@@ -4,9 +4,10 @@
 
 import uuid
 
-from core.models.applications import Application
-from core.models.contexts import Context
 from django.db import models
+
+from core.models.contexts import Context
+from core.models.projects import Project
 
 
 class Response(models.Model):
@@ -15,7 +16,7 @@ class Response(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
     status_code = models.CharField(max_length=255)
     headers = models.TextField()

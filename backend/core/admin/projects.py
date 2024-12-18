@@ -2,12 +2,13 @@
 Отображение модели приложения.
 """
 
-from core.models import Application
 from django.contrib import admin
 
+from core.models import Project
 
-@admin.register(Application)
-class ApplicationAdmin(admin.ModelAdmin):
+
+@admin.register(Project)
+class ProjectAdmin(admin.ModelAdmin):
     """
     Отображение приложения в админке.
     """

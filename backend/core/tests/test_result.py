@@ -3,6 +3,7 @@
 """
 
 import pytest
+
 from core.result import Result
 
 

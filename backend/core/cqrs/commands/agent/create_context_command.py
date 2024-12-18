@@ -2,8 +2,12 @@
 Команда для обработки контекста выполнения запроса, присылаемого агентом.
 """
 
+import logging
+
 from core.result import Result
-from engine.agent.context import handle_context
+from engine.context import handle_context
+
+logger = logging.getLogger(__name__)
 
 
 class CreateContextCommand:

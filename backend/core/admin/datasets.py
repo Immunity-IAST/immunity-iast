@@ -2,8 +2,9 @@
 Отображение в админке датасетов.
 """
 
-from core.models import Dataset
 from django.contrib import admin
+
+from core.models import Dataset
 
 
 @admin.register(Dataset)

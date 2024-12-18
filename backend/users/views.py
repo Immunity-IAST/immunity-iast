@@ -2,11 +2,17 @@
 Тестовый обработчик для графа.
 """
 
+# from drf_spectacular.utils import extend_schema
+import logging
+
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+logger = logging.getLogger(__name__)
 
+
+# @extend_schema(tags=['PoC'])
 class GraphDataView(APIView):
     permission_classes = [IsAuthenticated]
 

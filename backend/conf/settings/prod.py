@@ -5,8 +5,9 @@
 import os
 from os import environ
 
-from conf.settings.base import *  # pylint: disable=unused-wildcard-import
 from django.core.management.utils import get_random_secret_key
+
+from conf.settings.base import *  # pylint: disable=unused-wildcard-import
 
 SECRET_KEY = get_random_secret_key()
 
@@ -41,9 +42,6 @@ DATABASES = {
         "PORT": environ.get("POSTGRES_PORT", "5432"),
     }
 }
-
-# Путь, куда collectstatic будет складывать файлы
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # URL для доступа к статическим файлам
 STATIC_URL = "/static/"
