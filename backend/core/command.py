@@ -2,14 +2,13 @@
 CQRS команда.
 """
 
+import logging
 from django.db import models, transaction
 from django.forms.models import model_to_dict
 
 from core.result import Result
 
 logger = logging.getLogger(__name__)
-
-from django.conf import settings
 
 
 class Command:
@@ -54,9 +53,8 @@ class Command:
                 related_instance = related_model.objects.get(id=related_id)
                 resolved_data[field] = related_instance
             except Exception as e:
-                return Result.failure(
-                    errors=f"Ошибка внешнего ключа {field} объекта с идентификатором {related_id}: {e}"
-                )
+                return Result.failure(errors=
+                    f"Ошибка внешнего ключа {field} объекта с идентификатором {related_id}: {e}")
         return resolved_data
 
     def create(self):
