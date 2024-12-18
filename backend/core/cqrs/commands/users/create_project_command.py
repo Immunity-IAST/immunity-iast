@@ -25,8 +25,12 @@ class CreateProjectCommand:
         """
         Выполнение команды.
         """
-        if Project.objects.filter(name=self.project_name).exists():
-            return Result(False, "Проект с таким именем уже существует.")
 
-        project = Project.objects.create(name=self.project_name)
-        return Result(True, "Проект успешно создан.", project)
+        exists = Project.objects.filter(name=self.project_name).exists()
+
+        if exists:
+            return Result.failure(f"Project {self.project_name} already exists")
+        else:
+            return Result.success(
+                Project.objects.create(data={"name": self.project_name})
+            )
