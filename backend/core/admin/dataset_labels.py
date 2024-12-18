@@ -15,8 +15,9 @@ class DatasetLabelAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "dataset",
+        "text",
         "label",
         "created_at",
     )
+    list_filter = ("label",)
     list_display_links = ("id",)

@@ -4,7 +4,6 @@
 
 from .contexts import Context
 from .dataset_labels import DatasetLabel
-from .datasets import Dataset
 from .events import Event
 from .projects import Project
 from .requests import Request
@@ -18,6 +17,5 @@ __all__ = [
     "Request",
     "Response",
     "Event",
-    "Dataset",
     "DatasetLabel",
 ]
