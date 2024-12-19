@@ -2,8 +2,11 @@
 CQRS запрос.
 """
 
-from typing import Optional, Dict, Any, List, Union
+import math
+from typing import Any, Dict, List, Optional, Union
+from django.db.models import F
 from django.forms.models import model_to_dict
+
 from core.result import Result
 
 
@@ -20,7 +23,7 @@ class Query:
         """
         self.model = model
 
-    def get_by_id(self, entity_id: int) -> Result:
+    def get_by_id(self, entity_id: Any) -> Result:
         """
         Получить одну запись по ID.
 
@@ -42,10 +45,10 @@ class Query:
         return [model_to_dict(entity) for entity in queryset]
 
     def filter(
-            self,
-            filters: Optional[Dict[str, Any]] = None,
-            order_by: Optional[List[str]] = None,
-            pagination: Optional[Dict[str, int]] = None,
+        self,
+        filters: Optional[Dict[str, Any]] = None,
+        order_by: Optional[List[str]] = None,
+        pagination: Optional[Dict[str, int]] = None,
     ) -> Result:
         """
         Получить список записей с фильтрацией, сортировкой и пагинацией.
@@ -69,8 +72,18 @@ class Query:
                 start = (page - 1) * page_size
                 end = start + page_size
                 qs = qs[start:end]
+                count = qs.count()
+                pagination_count = math.ceil(count / page_size)
 
-            return Result.success(data=self.convert_queryset_to_list(list(qs)))
+            return Result.success(
+                data=self.convert_queryset_to_list(list(qs)),
+                meta={
+                    "page": page,
+                    "page_size": page_size,
+                    "pages_count": pagination_count,
+                    "objects_count": count,
+                },
+            )
         except Exception as e:
             return Result.failure(errors=str(e))
 

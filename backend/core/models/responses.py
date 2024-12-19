@@ -2,8 +2,6 @@
 Модель HTTP-ответа.
 """
 
-import uuid
-
 from django.db import models
 
 from core.models.contexts import Context
@@ -14,8 +12,6 @@ class Response(models.Model):
     """
     Модель ответа.
     """
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
     status_code = models.CharField(max_length=255)

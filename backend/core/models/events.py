@@ -2,8 +2,6 @@
 Модель для событий потока управления.
 """
 
-import uuid
-
 from django.db import models
 
 from core.models.contexts import Context
@@ -14,8 +12,6 @@ class Event(models.Model):
     """
     Унифицированная модель для событий потока управления.
     """
-
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     context = models.ForeignKey(Context, on_delete=models.CASCADE)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     timestamp = models.DateTimeField()
