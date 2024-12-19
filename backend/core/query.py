@@ -76,7 +76,7 @@ class Query:
                 pagination_count = math.ceil(count / page_size)
 
             return Result.success(
-                data=self.convert_queryset_to_list(list(qs)),
+                data=list(qs.values()),
                 meta={
                     "page": page,
                     "page_size": page_size,
@@ -98,6 +98,7 @@ class Query:
             qs = self.model.objects.all()
             if order_by:
                 qs = qs.order_by(*order_by)
-            return Result.success(data=self.convert_queryset_to_list(list(qs)))
+            #return Result.success(data=self.convert_queryset_to_list(list(qs)))
+            return Result.success(data=list(qs.values()))
         except Exception as e:
             return Result.failure(errors=str(e))

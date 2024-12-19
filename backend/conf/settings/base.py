@@ -45,6 +45,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DATETIME_FORMAT": "%d.%m.%Y %H:%M",
     "DATE_FORMAT": "%d.%m.%Y",
     "TIME_FORMAT": "%H:%M",
     # "DEFAULT_PERMISSION_CLASSES": [
@@ -52,6 +53,12 @@ REST_FRAMEWORK = {
     # ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+DATETIME_FORMAT = "%d.%m.%Y %H:%M"
+
+DATE_FORMAT = "%d.%m.%Y"
+
+TIME_FORMAT = "%H:%M"
 
 DJOSER = {
     "LOGIN_FIELD": "username",

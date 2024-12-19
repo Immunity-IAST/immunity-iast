@@ -25,7 +25,7 @@ class ProjectAPIView(viewsets.ViewSet):
     API для работы с проектами.
     """
 
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
 
     @extend_schema(
         responses={
