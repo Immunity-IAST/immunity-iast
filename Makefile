@@ -4,14 +4,14 @@ vm:
 	vagrant up --provision
 
 up:
-	docker-compose -f docker-compose/docker-compose.yml up -d --build
+	sudo docker compose -f docker-compose/docker-compose.yml up -d --build
 
 rebuild:
-	docker-compose -f docker-compose/docker-compose.yml down -v
-	docker-compose -f docker-compose/docker-compose.yml up -d --build
+	sudo docker compose -f docker-compose/docker-compose.yml down -v
+	sudo docker compose -f docker-compose/docker-compose.yml up -d --build
 
 down:
-	docker-compose -f docker-compose/docker-compose.yml down
+	sudo docker compose -f docker-compose/docker-compose.yml down
 
 format:
 	isort --apply ./backend/
