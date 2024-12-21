@@ -29,4 +29,10 @@ urlpatterns = [
     path(
         "vulnerability/", csrf_exempt(VulnerabilityAPIView.as_view({"get": "filter"}))
     ),
+    path(
+        "dataset/", csrf_exempt(DatasetAPIView.as_view({"get": "filter"}))
+    ),
+    path(
+        "dataset/markup/", csrf_exempt(DatasetAPIView.as_view({"post": "filter"}))
+    ),
 ]
