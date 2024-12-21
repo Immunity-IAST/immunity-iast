@@ -19,9 +19,11 @@ class VulnerabilityAdmin(admin.ModelAdmin):
         "context",
         "type",
         "cwe",
-        "path",
         "detected_at",
     )
     list_display_links = ("id",)
-    list_filter = ("type","cwe",)
-    search_fields = ("project", "context",)
+    list_filter = (
+        "type",
+        "cwe",
+    )
+    search_fields = ("context","project",)

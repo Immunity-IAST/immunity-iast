@@ -3,7 +3,7 @@
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, List, Dict
+from typing import Any, Dict, List
 
 
 class BasePlugin(ABC):
@@ -11,6 +11,7 @@ class BasePlugin(ABC):
     Базовый класс для всех плагинов анализа.
     Каждый плагин должен реализовать метод `run`.
     """
+
     name: str = "base_plugin"
     description: str = "Base plugin for vulnerability detection."
 
