@@ -7,19 +7,21 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_sche
 from rest_framework import serializers, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
+from django.db.models import Q
 from core.command import Command
-from core.models import DatasetLabel
+from engine.handler import ContextHandler
+from core.models import DatasetLabel, Project, Event, Context
 from core.query import Query
 from core.result import Result
 import logging
 
 logger = logging.getLogger(__name__)
 
-class DatasetSerializer(serializers.Serializer):
+class MarkupSerializer(serializers.Serializer):
+    project = serializers.IntegerField()
     label = serializers.CharField(max_length=10)
     file = serializers.CharField(max_length=None)
-    line = serializers.CharField(max_length=255)
+    line = serializers.IntegerField()
 
 class DatasetAPIView(viewsets.ViewSet):
     """
@@ -95,16 +97,35 @@ class DatasetAPIView(viewsets.ViewSet):
         """
 
         try:
-            serializer = DatasetSerializer(data=request.data)
+            serializer = MarkupSerializer(data=request.data)
             if serializer.is_valid():
                 data = serializer.validated_data
+                
+                project = Project.objects.get(pk=data["project"])
+                label = data["label"]
+                file = data["file"]
+                line = data["line"]
 
-                # ... логичная логика
+                vulnerable_events = Event.objects.filter(
+                    Q(line=line) &
+                    Q(filename=file) &
+                    Q(project=project) &
+                    Q(type="code_execution")
+                ).distinct()
 
-                if result.is_success:
-                    return Response(result.to_dict(), status=201)
-                else:
-                    return Response(result.to_dict(), status=400)
+                filtered_contexts = vulnerable_events.values_list('context', flat=True).distinct()
+
+                contexts_prepared = [ContextHandler.handle(Context.objects.get(id=context)) for context in filtered_contexts]
+
+                for c in contexts_prepared:
+                    DatasetLabel.objects.create(
+                        text=c,
+                        label=label
+                    )
+
+                return Response(
+                    Result.success(data={"contexts": contexts_prepared}).to_dict(), status=200
+                )
             return Response(serializer.errors, status=400)
 
         except Exception as e:
