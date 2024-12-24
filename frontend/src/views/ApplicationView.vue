@@ -76,7 +76,7 @@ export default {
                     </div>
 
                     <div class="uk-margin">
-                        <select v-model="language" type="text" class="uk-select" aria-label="Язык программирования">
+                        <select v-model="language" type="text" class="uk-select" placeholder="Язык программирования">
                             <option value="python">Python</option>
                         </select>
                     </div>

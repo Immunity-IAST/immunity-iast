@@ -21,9 +21,7 @@ class ProjectAdmin(admin.ModelAdmin):
         "last_online",
     )
     list_display_links = ("name",)
-    list_filter = (
-        "language",
-    )
+    list_filter = ("language",)
     search_fields = (
         "id",
         "name",
