@@ -138,7 +138,7 @@ export default {
 
                 <tr v-for="project in projects" :key="project.id">
                     <td>
-                        <a href="#" class="uk-button uk-button-text">{{ project.name }}</a>
+                        <router-link :to="{ name: 'application_detail', params: { id: project.id } }" class="uk-button uk-button-text">{{ project.name }}</router-link>
                     </td>
                     <td class="uk-center">
                         <span class="uk-label uk-label-default">

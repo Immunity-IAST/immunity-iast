@@ -1,19 +1,23 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import ApplicationView from '../views/ApplicationView.vue';
 import DatasetView from '../views/DatasetView.vue';
+import ApplicationDetailView from '../views/ApplicationDetailView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'application',
     component: ApplicationView,
-    meta: {requiresAuth: true},
+  },
+  {
+    path: '/project/:id',
+    name: 'application_detail',
+    component: ApplicationDetailView,
   },
   {
     path: '/dataset',
     name: 'dataset',
     component: DatasetView,
-    meta: {requiresAuth: true},
   },
 ];
 

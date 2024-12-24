@@ -10,10 +10,10 @@ export default {
         const description = ref('');
         const language = ref('')
 
-        const handleCreateProject = async () => {
+        const handleMarkup = async () => {
             try {
                 response = await axios.post(
-                    `http://127.0.0.1:81/api/users/project/`,
+                    `http://127.0.0.1:81/api/users/dataset/markup/`,
                     {
                         name: name.value,
                         description: description.value,
@@ -21,7 +21,7 @@ export default {
                     },
                 );
             } catch (error) {
-                console.error('Error creating project', error);
+                console.error('Error adding labels', error);
             }
         };
 
@@ -38,7 +38,7 @@ export default {
             name,
             description,
             language,
-            handleCreateProject
+            handleMarkup
         }
     }
 }
@@ -63,37 +63,28 @@ export default {
         <table class="uk-table uk-table-middle uk-table-divider">
             <thead>
                 <tr>
-                    <th>Название проекта</th>
-                    <th class="uk-center">Язык программирования</th>
-                    <th class="uk-center">Активные уязвимости</th>
-                    <th class="uk-center">Статус</th>
-                    <th class="uk-center">Последнее взаимодействие</th>
-                    <th class="uk-center">Дата подключения</th>
+                    <th class="uk-center uk-table-shrink">id</th>
+                    <th class="uk-center">Текст</th>
+                    <th class="uk-center uk-width-small">Метка</th>
                 </tr>
             </thead>
             <tbody>
 
-                <tr>
+                <tr v-for="dataset in datasets" :key="dataset.id">
                     <td>
-                        <a href="#" class="uk-button uk-button-text">VulnApp Django</a>
+                        <a href="#" class="uk-button uk-button-text">{{ dataset.id }}</a>
                     </td>
                     <td class="uk-center">
-                        <span class="uk-label uk-label-default">
-                            Python
-                        </span>
+                        {{ dataset.text }}
                     </td>
                     <td class="uk-center">
-                        <span class="uk-label uk-label-danger">
-                            12
+                        <span v-if="dataset.label === 'Clean'" class="uk-label uk-label-success">
+                            {{ dataset.label }}
+                        </span>
+                        <span v-else class="uk-label uk-label-danger">
+                            {{ dataset.label }}
                         </span>
                     </td>
-                    <td class="uk-center">
-                        <span class="uk-label uk-label-success">
-                            Online
-                        </span>
-                    </td>
-                    <td class="uk-center">5 сентября 2015, 14:10</td>
-                    <td class="uk-center">5 сентября 2015, 14:10</td>
                 </tr>
 
             </tbody>

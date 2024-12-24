@@ -13,7 +13,6 @@ class Project(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     language = models.CharField(max_length=255, choices=(("python", "Python"),))
-    online = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     last_online = models.DateTimeField(auto_now=True)
 
