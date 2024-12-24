@@ -4,15 +4,12 @@
 
 from django.db import models
 
-from core.models.users import User
-
 
 class Project(models.Model):
     """
     Модель анализируемого проекта.
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     language = models.CharField(max_length=255, choices=(("python", "Python"),))

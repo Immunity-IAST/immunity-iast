@@ -15,7 +15,6 @@ class ProjectAdmin(admin.ModelAdmin):
 
     list_display = (
         "id",
-        "user",
         "name",
         "language",
         "online",

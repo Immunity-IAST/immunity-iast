@@ -173,8 +173,7 @@ class ProjectAPIView(viewsets.ViewSet):
                 data = serializer.validated_data
                 command = Command(
                     model=Project,
-                    data=data,
-                    foreign_keys={"user": self.request.user.id},
+                    data=data
                 )
                 result = command.create()
 

@@ -1,5 +1,47 @@
 <script>
+import {ref, onMounted} from 'vue';
+import axios from '@/axios';
 
+export default {
+    setup() {
+        const datasets = ref([]);
+
+        const name = ref('');
+        const description = ref('');
+        const language = ref('')
+
+        const handleCreateProject = async () => {
+            try {
+                response = await axios.post(
+                    `http://127.0.0.1:81/api/users/project/`,
+                    {
+                        name: name.value,
+                        description: description.value,
+                        language: language.value,
+                    },
+                );
+            } catch (error) {
+                console.error('Error creating project', error);
+            }
+        };
+
+        onMounted(async () => {
+            try {
+                const response = await axios.get(`http://127.0.0.1:81/api/users/dataset/`);
+                datasets.value = response.data.data;
+            } catch (error) {
+                console.error('Error fetching datasets', error)
+            }
+        });
+        return {
+            datasets,
+            name,
+            description,
+            language,
+            handleCreateProject
+        }
+    }
+}
 </script>
 
 <template>
@@ -54,26 +96,6 @@
                     <td class="uk-center">5 сентября 2015, 14:10</td>
                 </tr>
 
-                <tr>
-                    <td>
-                        <a href="#" class="uk-button uk-button-text">Flask Goat</a>
-                    </td>
-                    <td class="uk-center">
-                        <span class="uk-label uk-label-default">
-                            Python
-                        </span>
-                    </td>
-                    <td class="uk-center">
-                        <span class="uk-label uk-label-danger">
-                            190
-                        </span>
-                    </td>
-                    <td class="uk-center">
-                        Offline
-                    </td>
-                    <td class="uk-center">5 сентября 2015, 14:10</td>
-                    <td class="uk-center">5 сентября 2015, 14:10</td>
-                </tr>
             </tbody>
         </table>
     </div>

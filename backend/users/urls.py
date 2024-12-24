@@ -13,8 +13,8 @@ from .views.vulnerability import VulnerabilityAPIView
 from .views.dataset_label import DatasetAPIView
 
 urlpatterns = [
-    path("auth/", include("djoser.urls")),
-    path("auth/", include("djoser.urls.jwt")),
+    #path("auth/", include("djoser.urls")),
+    #path("auth/", include("djoser.urls.jwt")),
     path(
         "project/", csrf_exempt(ProjectAPIView.as_view({"get": "get", "post": "post"}))
     ),
